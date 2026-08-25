@@ -2,7 +2,7 @@
 replicaCount: 1
 image:
   repository: 793001766848.dkr.ecr.ap-south-1.amazonaws.com/auth-service  # same ECR repo as prod
-  tag: "v1.0.0"    # CI injects git SHA here
+  tag: ""    # CI injects git SHA here
 resources:
   requests: { cpu: 50m, memory: 64Mi }
   limits:   { cpu: 200m, memory: 128Mi }
