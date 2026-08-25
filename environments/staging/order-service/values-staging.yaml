@@ -3,7 +3,7 @@
 replicaCount: 2
 image:
   repository: 793001766848.dkr.ecr.ap-south-1.amazonaws.com/order-service
-  tag: ""  # CI injects git SHA
+  tag: "v1.0.0"  # CI injects git SHA
 authServiceUrl: "http://auth-service.staging.svc.cluster.local"
 resources:
   requests: { cpu: "100m", memory: "128Mi" }
