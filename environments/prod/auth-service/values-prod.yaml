@@ -1,0 +1,10 @@
+# IMPORTANT: keep 'image:' and 'tag:' on SEPARATE lines (block style, not flow style).
+# The CI sed command targets the '  tag:' line — flow style like { tag: x } would break it.
+replicaCount: 3
+image:
+  repository: "793001766848.dkr.ecr.ap-south-1.amazonaws.com/auth-service"
+  tag: ""  # ← CI injects the git SHA here via sed
+resources:
+  requests: { cpu: "200m", memory: "256Mi" }
+  limits: { cpu: "1000m", memory: "512Mi" }
+autoscaling: { enabled: true, minReplicas: 3, maxReplicas: 10, targetCPUUtilizationPercentage: 60 }

@@ -1,0 +1,23 @@
+# Replaces the helm create boilerplate hpa.yaml — gated by .Values.autoscaling.enabled
+# so dev/staging (enabled: false) render nothing, and prod (enabled: true) gets a real HPA
+{{- if .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: auth-service-{{ .Values.version }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: auth-service-{{ .Values.version }}   # must match the Deployment name in deployment.yaml
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+{{- end }}

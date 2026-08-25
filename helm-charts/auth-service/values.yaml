@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: 793001766848.dkr.ecr.ap-south-1.amazonaws.com/auth-service
+  tag: ""       # CI/CD injects the git SHA here automatically
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+version: blue       # blue or green — for blue/green deployment
+
+autoscaling:
+  enabled: false   # default off — only prod turns this on
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 60

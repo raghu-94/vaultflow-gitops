@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-{{ .Values.version }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: auth-service
+    version: {{ .Values.version }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: auth-service
+      version: {{ .Values.version }}
+  template:
+    metadata:
+      labels:
+        app: auth-service
+        version: {{ .Values.version }}
+    spec:
+      serviceAccountName: auth-service   # binds to the SA created in rbac.yaml — required for IRSA and least-privilege
+      containers:
+      - name: auth-service
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"   # quoted — tag is "" until CI injects the git SHA; an unquoted trailing colon breaks YAML parsing
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+        resources:
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+        livenessProbe:
+          httpGet: { path: /health, port: {{ .Values.service.targetPort }} }
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet: { path: /health, port: {{ .Values.service.targetPort }} }
+          initialDelaySeconds: 5
+          periodSeconds: 10

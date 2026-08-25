@@ -1,0 +1,10 @@
+# Staging: same limits as prod so staging catches OOM before prod
+# IMPORTANT: use block style for image.tag so the CI sed can match '  tag: ...' on its own line
+replicaCount: 2
+image:
+  repository: 793001766848.dkr.ecr.ap-south-1.amazonaws.com/order-service
+  tag: ""  # CI injects git SHA
+authServiceUrl: "http://auth-service.staging.svc.cluster.local"
+resources:
+  requests: { cpu: "100m", memory: "128Mi" }
+  limits: { cpu: "500m", memory: "512Mi" }

@@ -1,0 +1,10 @@
+# Staging: mirrors prod resource settings for accurate pre-prod testing
+# IMPORTANT: use block style for image.tag so the CI sed can match '  tag: ...' on its own line
+replicaCount: 2
+image:
+  repository: 793001766848.dkr.ecr.ap-south-1.amazonaws.com/auth-service
+  tag: ""  # CI injects git SHA
+resources:
+  requests: { cpu: "100m", memory: "128Mi" }
+  limits: { cpu: "500m", memory: "512Mi" }
+autoscaling: { enabled: false }   # disabled in staging to save cost
