@@ -3,7 +3,7 @@
 replicaCount: 3
 image:
   repository: "793001766848.dkr.ecr.ap-south-1.amazonaws.com/auth-service"
-  tag: 10f8c453c7f7d22f01c493a161d236da2ef18678
+  tag: 30c2f906f8a8e74070ed9633ea4a3cde258e7790
 resources:
   requests: { cpu: "200m", memory: "256Mi" }
   limits: { cpu: "1000m", memory: "512Mi" }
