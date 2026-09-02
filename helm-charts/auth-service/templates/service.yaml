@@ -1,4 +1,5 @@
 # Replaces the helm create boilerplate service.yaml — must match values.yaml structure
+{{- if .Values.service.enabled }} 
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,3 +13,4 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
   type: {{ .Values.service.type }}
+{{- end }} 
