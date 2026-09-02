@@ -1,6 +1,6 @@
 # Replaces the helm create boilerplate hpa.yaml — gated by .Values.autoscaling.enabled
 # so dev/staging (enabled: false) render nothing, and prod (enabled: true) gets a real HPA
-{{- if .Values.autoscaling.enabled }}
+{{- if and .Values.autoscaling.enabled .Values.deployment.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
