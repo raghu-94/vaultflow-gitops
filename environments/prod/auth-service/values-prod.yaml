@@ -1,0 +1,8 @@
+replicaCount: 3
+image:
+  repository: "274394226013.dkr.ecr.ap-south-1.amazonaws.com/auth-service"
+  tag: ""  # ← CI injects the git SHA here via sed
+resources:
+  requests: { cpu: "200m", memory: "256Mi" }
+  limits: { cpu: "1000m", memory: "512Mi" }
+autoscaling: { enabled: true, minReplicas: 3, maxReplicas: 10, targetCPUUtilizationPercentage: 60 }
