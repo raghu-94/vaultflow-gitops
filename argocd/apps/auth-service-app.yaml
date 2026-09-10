@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auth-service-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/raghu-94/vaultflow-gitops
+    targetRevision: main              # watch the main branch
+    path: helm-charts/auth-service    # path to the Helm chart
+    helm:
+      valueFiles:
+        - ../../environments/prod/auth-service/values-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc  # in-cluster deployment
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true       # delete resources removed from Git
+      selfHeal: true    # revert manual kubectl changes automatically
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:   # Phase 6 needs this — see explanation below
+    - group: ""
+      kind: Service
+      name: auth-service
+      jsonPointers:
+        - /spec/selector/version

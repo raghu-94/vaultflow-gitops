@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-service-staging
+  name: auth-service-dev
   namespace: argocd
 spec:
   project: default
@@ -11,10 +11,10 @@ spec:
     path: helm-charts/auth-service
     helm:
       valueFiles:
-        - ../../environments/staging/auth-service/values-staging.yaml
+        - ../../environments/dev/auth-service/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: staging
+    namespace: dev
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions: [CreateNamespace=true]

@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-service-staging
+  name: order-service-dev
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/raghu-94/vaultflow-gitops
     targetRevision: main
-    path: helm-charts/auth-service
+    path: helm-charts/order-service
     helm:
       valueFiles:
-        - ../../environments/staging/auth-service/values-staging.yaml
+        - ../../environments/dev/order-service/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: staging
+    namespace: dev
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions: [CreateNamespace=true]
