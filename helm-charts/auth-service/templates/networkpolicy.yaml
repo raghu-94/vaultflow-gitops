@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
-metadata: { name: default-deny-all, namespace: production }
+metadata: { name: default-deny-all, namespace: {{ .Release.Namespace }} }
 spec: { podSelector: {}, policyTypes: [Ingress, Egress] }
 ---
 {{- if .Values.networkPolicy.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
-metadata: { name: auth-service-netpol, namespace: production }
+metadata: { name: auth-service-netpol, namespace: {{ .Release.Namespace }} }
 spec:
   podSelector: { matchLabels: { app: auth-service } }
   policyTypes: [Ingress, Egress]
